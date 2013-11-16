@@ -14,7 +14,7 @@ describe "matching two lines" do
     end
 
     it "counts zero differences between them" do
-      cc = ChorusExtractor.num_differences(@first_line, @second_line)
+      cc = ChorusExtractor.num_similarities(@first_line, @second_line)
       cc.should eq 0
     end
   end
@@ -26,6 +26,15 @@ describe "matching two lines" do
     cc = ChorusExtractor.correlation_coeff(@first_line, @second_line)
 
     cc.should eq 0.5
+  end
+
+  it "has cc of 0.5 for two character strings differing by one char" do
+    @first_line  = "foo"
+    @second_line = "bar"
+
+    cc = ChorusExtractor.correlation_coeff(@first_line, @second_line)
+
+    cc.should eq 0
   end
 
   it "has cc of 0.5 for two character strings differing by one char" do
