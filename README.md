@@ -4,8 +4,10 @@ Extracts chorus from lyrics by finding consecutive matching lines of
 text in a file.
 
 To find patterns, each line is assigned a "diff score" based on the
-percentage of similar lines taht exist within the same file. 
-Consecutive lines with a high score are marked as being chorus lines.
+percentage of similar lines taht exist within the same file computed
+via the McIlroy-Hunt longest common subsequence (LCS) algorithm)
+Groups of consecutive lines with a high score are marked as being
+chorus lines.
 
 Matching lines do not need to be exact and matching
 algorithm is not case sensitive. 
