@@ -4,13 +4,13 @@ Extracts chorus from lyrics by finding consecutive matching lines of
 text in a file.
 
 To find patterns, each line is assigned a "diff score" based on the
-percentage of similar lines taht exist within the same file computed
-via the McIlroy-Hunt longest common subsequence (LCS) algorithm)
+percentage of similar lines that exist within the same file computed
+via the McIlroy-Hunt Longest Common Subsequence (LCS) algorithm)
 Groups of consecutive lines with a high score are marked as being
 chorus lines.
 
-Matching lines do not need to be exact and matching
-algorithm is not case sensitive. 
+Matching lines do not need to be exact and matching algorithm is not case sensitive.
+Ambiguity can be resolved
 
 ### Example:
 
@@ -69,12 +69,28 @@ For any two lines of text we can compute their similarity by finding the
 order-sensitive difference between them. The percentage similarity can
 be computed as a correlation coefficient scored between zero and one. 
 
-We can then build a correlation matrix by applying a difference between one
-line and each other lines in the file. For N lines in a file, this
-results in an NxN diagonal matrix.
+We can then build a correlation matrix by mapping the difference between one
+line against all other lines in the file. For N lines in a file, this
+results in an NxN pseudo-symmetrical matrix.
 
 Groups of similar lines of text will result in segments of the
 correlation matrix with high values.
+
+Chorus features occur in groups of diagonals along the correlation matrix
+
+Blocks (i.e. large sections) of repeated text can be identified as blocks of white (1.0)
+within the correlation map.
+
+The algorithm can
+
+# Metrics
+
+*Confidence* *Index* Some lyric files contain more than one chorus, or can contain pre-chorus
+and chorus, or even multiple choruses. Confidence score (0-1) is a measure of confidence. 1 is
+complete confidence and 0 is no confidence.
+*Recurse* *Index* How many nestings of similarity
+*Breadth* *Index* How many
+
 
 ## Installation
 
@@ -91,6 +107,10 @@ Or install it yourself as:
     $ gem install chorus_extractor
 
 ## Usage
+
+# Examples and results
+
+ChorusExtractor.process('/path/to/lyrics/file')
 
 ## Contributing
 
