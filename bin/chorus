@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'chorus_extractor'
 
 ChorusExtractor.process(ARGV[0])

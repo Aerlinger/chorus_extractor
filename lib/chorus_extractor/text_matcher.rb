@@ -2,17 +2,16 @@ require 'core_ext/matrix'
 require 'colorize'
 
 module ChorusExtractor
+
   class << self
     def process(filename)
       lines = IO.readlines(filename).map(&:downcase)
 
-      correlation_map = compute_correlation_matrix(lines)
-      chorus_map      = extract_chorus_from_correlation_map(correlation_map)
-      annotated       = annotate_lines_from_chorus_map(lines, chorus_map)
+      @correlation_map = compute_correlation_matrix(lines)
+      @chorus_map      = extract_chorus_from_correlation_map(@correlation_map)
+      #@annotated       = segment_chorus_map(lines, @chorus_map)
 
-      write_image(correlation_map, filename)
-
-      return annotated
+      write_image(@correlation_map, filename)
     end
 
     def write_image(matrix, filename)
@@ -42,9 +41,17 @@ module ChorusExtractor
         diag = correlation_matrix.diagonal(column_idx)
 
         extract_chorus_from_diagonal(diag, column_idx, threshold, min_length)
-      end
+      end.compact
 
-      mapped_columns.select(&:any?)
+      mapped_columns = mapped_columns.flatten(1)
+
+      mapped_columns.map do |column|
+        {
+          coefs: column[0],
+          rows:  column[1],
+          cols:  column[2]
+        }
+      end
     end
 
     def extract_chorus_from_diagonal(diagonal, offset, threshold = 0.8, min_length = 2)
@@ -56,57 +63,60 @@ module ChorusExtractor
         item.last
       }.map(&:transpose)
 
-      groups.each { |item|
-        item << item.last.map { |sub_array| sub_array + offset }
-      }
+      if groups.any?
+        groups.each { |item|
+          item << item.last.map { |sub_array| sub_array + offset }
+        }
+      end
     end
 
-    def annotate_lines_from_chorus_map(lines, chorus_map)
-      chorus_map.each_with_index do |chorus_data, chorus_idx|
-        prefix = ""
-
-        chorus_data.each_with_index do |match, match_idx|
-          coefs = match[0]
-          rows  = match[1]
-          cols  = match[2]
-
-          #color = String.colors[chorus_idx + 1]
-          #color_background = String.colors[0]
-
-          rows.each_with_index do |row, idx|
-            col  = cols[idx]
-            coef = coefs[idx]
-
-            color = String.colors[chorus_idx]
-            color_background = String.colors[0]
-
-            lines[row] = lines[row].colorize(color: color, background: color_background)
-            lines[col] = lines[col].colorize(color: color, background: color_background)
-          end
-        end
+    def segment_chorus_map(lines, chorus_map)
+      annotated_lines = lines.each_with_index.map do |line, idx|
+        {
+          score:       0,
+          line_number: idx,
+          groups:      [],
+          lyrics:      line
+        }
       end
 
+      # For each potential chorus block that's found:
       chorus_map.each_with_index do |chorus_data, chorus_idx|
-        prefix = ""
-
+        # Get the coeffcients, rows, and columns for each:
         chorus_data.each_with_index do |match, match_idx|
           coefs = match[0]
           rows  = match[1]
           cols  = match[2]
 
           rows.each_with_index do |row, idx|
-            col  = cols[idx]
-            coef = coefs[idx]
+            col = cols[idx]
 
-            lines[row].prepend(' ')
-            lines[col].prepend(' ')
+            line1 = annotated_lines[row]
+            line2 = annotated_lines[col]
+
+            line1[:score] += 1
+            line2[:score] += 1
+
+            line1[:groups] << chorus_idx
+            line2[:groups] << chorus_idx
           end
         end
       end
 
-      lines.each_with_index { |line, idx| line.prepend(" #{(idx + 1).to_s + (idx < 9 ? " " : "")} | ").bold }
+      unique_groups = annotated_lines.map { |line| line[:groups] }.uniq.compact
 
-      return lines
+      return annotated_lines
+    end
+
+    def lines_by_group(annotated_lines, group)
+      annotated_lines.select { |line| line[:group] == group }
+    end
+
+    private
+
+    def compute_average(array)
+      sum = array.inject(:+)
+      sum.to_f / array.length
     end
   end
 end

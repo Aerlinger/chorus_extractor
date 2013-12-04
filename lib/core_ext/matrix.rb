@@ -8,10 +8,12 @@ class Matrix
     count = row_size - n
 
     count.times.map do |idx|
+      element = self[idx + n, idx]
+
       if block_given?
-        yield self[idx + n, idx]
+        yield element
       else
-        self[idx + n, idx]
+        element
       end
     end
   end
