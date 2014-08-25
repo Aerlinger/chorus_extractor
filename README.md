@@ -81,7 +81,9 @@ Chorus features occur in groups of diagonals along the correlation matrix
 Blocks (i.e. large sections) of repeated text can be identified as blocks of white (1.0)
 within the correlation map.
 
-The algorithm can
+
+
+![](https://raw.githubusercontent.com/Aerlinger/chorus_extractor/develop/example/correlation_maps/3_cleaned.jsi_processed.bmp)
 
 # Metrics
 
