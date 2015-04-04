@@ -86,11 +86,11 @@ within the correlation map.
 
 # Metrics
 
-*Confidence* *Index* Some lyric files contain more than one chorus, or can contain pre-chorus
+- *Confidence* *Index* Some lyric files contain more than one chorus, or can contain pre-chorus
 and chorus, or even multiple choruses. Confidence score (0-1) is a measure of confidence. 1 is
 complete confidence and 0 is no confidence.
-*Recurse* *Index* How many nestings of similarity
-*Breadth* *Index* How many
+- *Recurse* *Index* How many nestings of similarity
+- *Breadth* *Index* How many
 
 
 ## Installation
