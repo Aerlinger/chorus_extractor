@@ -14,6 +14,8 @@ Ambiguity can be resolved
 
 ### Example:
 
+```
+
 > Written in these walls all the stories that I cant explain,
 > I leave my heart open but it stays right here empty for days,
 > She told me in the morning she don’t feel the same about us in her bones,
@@ -22,7 +24,7 @@ Ambiguity can be resolved
 > The ground beneath my feet is open wide
 > The way that I've been holding on too tight with nothing in between
 
-```
+
   The story of my life I take her home
   I drive all night
   To keep her warm and time-
@@ -30,7 +32,6 @@ Ambiguity can be resolved
   The story of my life I give her hope
   I spend her love until she’s broke inside
   The story of my life
-```
 
 > Written on these walls are the colours that I can't change
 > Leave my heart open but it stays right here in its cage
@@ -38,10 +39,9 @@ Ambiguity can be resolved
 > Although I'm broken my heart is untamed still
 > And I'll be gone, gone tonight
 > The fire beneath my feet is burning bright
-> The way that I've been holding on so tight 
+> The way that I've been holding on so tight
 > With nothing in between
 
-```
   The story of my life I take her home
   I drive all night
   To keep her warm and time-
@@ -49,7 +49,6 @@ Ambiguity can be resolved
   The Story of my life I give her hope
   I spend her love until she’s broke inside
   The story of my life
-```
 
 > And I've been waiting for this time to come around
 > But baby running after you is like chasing chasing the clouds
@@ -61,6 +60,8 @@ Ambiguity can be resolved
 > The Story of my life I give her hope
 > I spend her love until she’s broke inside
 > The story of my life
+
+```
 
 # Algorithm
 
